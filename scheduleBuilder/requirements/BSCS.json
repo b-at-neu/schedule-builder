@@ -1,0 +1,280 @@
+{
+    "title": "Bachelor's of Science in Computer Science",
+    "courses": [
+        {
+            "title": "Computer Science Overview",
+            "courses": [
+                "CS1200",
+                "CS1202"
+            ]
+        },
+        {
+            "title": "Computer Science Fundamental Courses",
+            "courses": [
+                "CS1800",
+                "CS2500",
+                "CS2510",
+                "CS2810"
+            ]
+        },
+        {
+            "title": "Computer Science Required Courses",
+            "courses": [
+                "CS3000",
+                "CS3500",
+                "CS3650",
+                "CS3800",
+                {
+                    "count": 1,
+                    "courses": [
+                        "CS4500",
+                        "CS4530"
+                    ]
+                }
+            ]
+        },
+        {
+            "title": "Security Required Course",
+            "count": 1,
+            "courses": [
+                "CY2550",
+                "CY3740",
+                "CY4740"
+            ]
+        },
+        {
+            "title": "Presentation Requirement",
+            "count": 1,
+            "courses": [
+                "COMM1112",
+                "COMM1113",
+                "COMM1210",
+                "COMM1511",
+                "THTR1125",
+                "THTR1130",
+                "THTR1180",
+                "THTR2345"
+            ]
+        },
+        {
+            "title": "Khoury Elective Courses",
+            "count": 2,
+            "courses": [
+                "CS",
+                "CY",
+                "DS",
+                "IS"
+            ]
+        },
+        {
+            "title": "Computer Science Concentration",
+            "count": 1,
+            "courses": [
+                {
+                    "title": "Artificial Intelligence",
+                    "courses": [
+                        "CS4100",
+                        "DS4400",
+                        {
+                            "count": 2,
+                            "courses": [
+                                "CS4120",
+                                "CS4150",
+                                "CS4610",
+                                "DS4420",
+                                "IS4200",
+                                "PSYC3466"
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "title": "Foundations",
+                    "courses": [
+                        {
+                            "count": 1,
+                            "courses": [
+                                "CS2800",
+                                "CS4820"
+                            ]
+                        },
+                        {
+                            "count": 1,
+                            "courses": [
+                                "CS4805",
+                                "CS4810"
+                            ]
+                        },
+                        {
+                            "count": 2,
+                            "courses": [
+                                "CS3950",
+                                "CS4805",
+                                "CS4810",
+                                "CS4820",
+                                "CS4830",
+                                "CY4770"
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "title": "Human-Centered Computing",
+                    "courses": [
+                        "IS4300",
+                        "IS4800",
+                        {
+                            "count": 2,
+                            "courses": [
+                                "CS4120",
+                                "CS4520",
+                                "CS4550",
+                                "DS4200",
+                                "IS2000"
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "title": "Software",
+                    "courses": [
+                        "CS2800",
+                        "CS4400",
+                        {
+                            "count": 1,
+                            "courses": [
+                                "CS4700",
+                                "CS4730"
+                            ]
+                        },
+                        {
+                            "count": 1,
+                            "courses": [
+                                "CS3520",
+                                "CS4410",
+                                "CS4550",
+                                "CS4700",
+                                "CS4730",
+                                "CS4820",
+                                "CS4830"
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "title": "Systems",
+                    "courses": [
+                        {
+                            "count": 1,
+                            "courses": [
+                                "CS4700",
+                                "CS4730"
+                            ]
+                        },
+                        {
+                            "count": 1,
+                            "courses": [
+                                "CY3740",
+                                "CY4740"
+                            ]
+                        },
+                        {
+                            "count": 2,
+                            "courses": [
+                                "CS3520",
+                                "CS4300",
+                                "CS4610",
+                                "CS4700",
+                                "CS4710",
+                                "CS4730",
+                                "CY3740",
+                                "CY4740",
+                                "CY4760"
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "title": "Mathematics Courses",
+            "courses": [
+                "MATH1341",
+                "MATH1365"
+            ]
+        },
+        {
+            "title": "Computing and Social Issues",
+            "count": 1,
+            "courses": [
+                "AFAM2600",
+                "CY4170",
+                "CY5240",
+                "ENGL2150",
+                "HIST2220",
+                "INSH2102",
+                "IS1300",
+                "PHIL1300",
+                "PHIL1145",
+                "SOCL1280",
+                "SOCL2485",
+                "SOCL4528"
+            ]
+        },
+        {
+            "title": "Electrical Engineering",
+            "courses": [
+                "EECE2322"
+            ]
+        },
+        {
+            "title": "Science Requirement",
+            "count": 2,
+            "courses": [
+                "BIOL1111",
+                "BIOL1113",
+                "BIOL2301",
+                "CHEM1161",
+                "CHEM1211",
+                "CHEM1214",
+                "ENVR1200",
+                "ENVR1202",
+                "ENVR2310",
+                "ENVR2340",
+                "ENVR3300",
+                "ENVR4500",
+                "ENVR5242",
+                "MATH1342",
+                "MATH2331",
+                "MATH3081",
+                "PHYS1145",
+                "PHYS1147",
+                "PHYS1151",
+                "PHYS1155",
+                "PHYS1161",
+                "PHYS1165"
+            ]
+        },
+        {
+            "title": "College Writing",
+            "courses": [
+                "ENGW1111"
+            ]
+        },
+        {
+            "title": "Advanced Writing in the Disciplines",
+            "count": 1,
+            "courses": [
+                "ENGW3302",
+                "ENGW3315"
+            ]
+        },
+        {
+            "title": "General Electives",
+            "count": 7,
+            "courses": [
+                "Electives here"
+            ]
+        }
+    ]
+}

@@ -1,0 +1,73 @@
+{
+    "title": "Minor in Theatre",
+    "courses": [
+        {
+            "title": "Required Course",
+            "courses": [
+                "THTR1101"
+            ]
+        },
+        {
+            "title": "Foundational Course",
+            "count": 1,
+            "courses": [
+                "THTR1130",
+                "THTR1131",
+                "THTR1270",
+                "THTR3325"
+            ]
+        },
+        {
+            "title": "Electives",
+            "count": 2,
+            "courses": [
+                "INAM1300",
+                "INAM2000",
+                "THTR1125",
+                "THTR1130",
+                "THTR1131",
+                "THTR1150",
+                "THTR1215",
+                "THTR1220",
+                "THTR1260",
+                "THTR1270",
+                "THTR1400",
+                "THTR1500",
+                "THTR1600",
+                "THTR2200",
+                "THTR2310",
+                "THTR2330",
+                "THTR2340",
+                "THTR2342",
+                "THTR2345",
+                "THTR2346",
+                "THTR2370",
+                "THTR2380",
+                "THTR2385",
+                "THTR2400",
+                "THTR2500",
+                "THTR2600",
+                "THTR2983",
+                "THTR2993",
+                "THTR3100",
+                "THTR3200",
+                "THTR3325",
+                "THTR3400",
+                "THTR3550",
+                "THTR3650",
+                "THTR3670",
+                "THTR3973",
+                "THTR4345",
+                "THTR5300",
+                "THTR5450",
+                "THTR5700"
+            ]
+        },
+        {
+            "title": "Making Theatre",
+            "courses": [
+                "THTR1100"
+            ]
+        }
+    ]
+}

@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    {% load static %}
+    <script src="{% static 'main/index.js' %}"></script>
+    <style>
+        body {
+            margin: 0
+        }
+        table {
+            table-layout: auto;
+            font-family: sans-serif;
+            font-size: 0.7em;
+            border-collapse: collapse;
+        }
+        th, td {
+            width: 150px;
+            height: 30px;
+            padding: 5px;
+            text-align: center;
+            vertical-align: middle;
+        }
+        th:not(:empty), td:not(:empty) {
+            border: 1px solid;
+        }
+        td.sel {
+            border: 1px solid;
+        }
+        .row1 th {
+            background-color: #d9d2e9;
+        }
+        .row2 th, .row4 th {
+            background-color: #e0e0e0;
+        }
+        .row3 th {
+            background-color: #c2c2c2;
+        }
+        .row4 th {
+            background-color: #9e9e9e;
+        }
+    </style>
+    <title>Scheduling Planner</title>
+</head>
+<body>
+
+    <table>
+
+        {% autoescape off %}
+        {{ html }}
+        {% endautoescape %}
+
+        <!-- Add the calender selection on the left -->
+
+        <tr>
+            <td rowspan="4">YEAR 1</td>
+            <td>Fall 2023</td>
+            {% for i in courseCount %}
+                <td class="sel"></td>
+            {% endfor %}
+        </tr>
+        <tr>
+            <td>Spring 2024</td>
+            {% for i in courseCount %}
+                <td class="sel"></td>
+            {% endfor %}
+        </tr>
+        <tr>
+            <td>Summer1 2024</td>
+            {% for i in courseCount %}
+                <td class="sel"></td>
+            {% endfor %}
+        </tr>
+        <tr>
+            <td>Summer2 2024</td>
+            {% for i in courseCount %}
+                <td class="sel"></td>
+            {% endfor %}
+        </tr>
+
+        <tr>
+            <td rowspan="4">YEAR 2</td>
+            <td>Fall 2024</td>
+            {% for i in courseCount %}
+                <td class="sel"></td>
+            {% endfor %}
+        </tr>
+        <tr>
+            <td>Spring 2025</td>
+            {% for i in courseCount %}
+                <td class="sel"></td>
+            {% endfor %}
+        </tr>
+        <tr>
+            <td>Summer1 2025</td>
+            {% for i in courseCount %}
+                <td class="sel"></td>
+            {% endfor %}
+        </tr>
+        <tr>
+            <td>Summer2 2025</td>
+            {% for i in courseCount %}
+                <td class="sel"></td>
+            {% endfor %}
+        </tr>
+
+        <tr>
+            <td rowspan="4">YEAR 3</td>
+            <td>Fall 2025</td>
+            {% for i in courseCount %}
+                <td class="sel"></td>
+            {% endfor %}
+        </tr>
+        <tr>
+            <td>Spring 2026</td>
+            {% for i in courseCount %}
+                <td class="sel"></td>
+            {% endfor %}
+        </tr>
+        <tr>
+            <td>Summer1 2026</td>
+            {% for i in courseCount %}
+                <td class="sel"></td>
+            {% endfor %}
+        </tr>
+        <tr>
+            <td>Summer2 2026</td>
+            {% for i in courseCount %}
+                <td class="sel"></td>
+            {% endfor %}
+        </tr>
+
+        <tr>
+            <td rowspan="4">YEAR 4</td>
+            <td>Fall 2026</td>
+            {% for i in courseCount %}
+                <td class="sel"></td>
+            {% endfor %}
+        </tr>
+        <tr>
+            <td>Spring 2027</td>
+            {% for i in courseCount %}
+                <td class="sel"></td>
+            {% endfor %}
+        </tr>
+        <tr>
+            <td>Summer1 2027</td>
+            {% for i in courseCount %}
+                <td class="sel"></td>
+            {% endfor %}
+        </tr>
+        <tr>
+            <td>Summer2 2027</td>
+            {% for i in courseCount %}
+                <td class="sel"></td>
+            {% endfor %}
+        </tr>
+
+    </table>
+
+    <button id="bb8">CLICK HERE 4 LIFE</button>
+</body>
+</html>
