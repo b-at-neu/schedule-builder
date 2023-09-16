@@ -18,12 +18,14 @@ def addProgram(program):
     root = CourseGroup(
         index = currentIndex,
         title = program.get('title'),
-        count = courseCount(program)
+        count = courseCount(program),
+        required = program.get('count') or len(program.get('courses')),
+        row = 0
     )
     root.save()
 
     # Begin recursive call
-    def rec(obj, id, currentIndex):
+    def rec(obj, id, currentIndex, currentRow):
         # Iterate over every course or course group
         for item in obj.get('courses'):
 
@@ -44,13 +46,15 @@ def addProgram(program):
                     index = currentIndex,
                     group_id = id,
                     title = item.get('title', ''),
-                    count = courseCount(item)
+                    count = courseCount(item),
+                    required = item.get('count') or len(item.get('courses')),
+                    row = currentRow
                 )
                 group.save()
 
-                # Call recursive function with new group    
-                currentIndex = rec(item, group.pk, currentIndex)
+                # Call recursive function with new group
+                currentIndex = rec(item, group.pk, currentIndex, currentRow + 1)
         
-        return currentIndex + 1
+        return currentIndex
     
-    rec(program, root.pk, currentIndex)
+    rec(program, root.pk, currentIndex, 1)
