@@ -41,6 +41,9 @@
         th.row3 {
             background-color: #9e9e9e;
         }
+        td.selected {
+            background-color: #00ff00;
+        }
     </style>
     <title>Scheduling Planner</title>
 </head>
@@ -76,7 +79,7 @@
                 <tr>
                     <td>{{ semester }}</td>
                     {% for i in course_count %}
-                        <td class="sel col{{ i }}"></td> <!--TODO: ADD ROW IN HERE-->
+                        <td class="sel" data-column="{{ i }}" data-year="{{ year }}" data-semester="{{ semester }}"></td> <!--TODO: ADD ROW IN HERE-->
                     {% endfor %}
                 </tr>
             {% endfor %}

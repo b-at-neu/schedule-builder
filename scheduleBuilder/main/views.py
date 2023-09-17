@@ -1,10 +1,13 @@
 import requests, json
 from django.shortcuts import render
-from django.http import HttpResponseNotFound
+from django.http import HttpResponseNotFound, JsonResponse, HttpResponseBadRequest
 from main.services.add_program import addProgram
-from main.models import Course, CourseGroup
+from main.models import Course, CourseGroup, CourseSelection
 
 # Create your views here.
+"""
+Returns main page view
+"""
 def index(request):
     """
     searchTerm = "Fall 2023 Semester"
@@ -45,10 +48,11 @@ def index(request):
                 current_group_index[i] += group.count
 
         # Create html
-        CLASSES = f'class="col{ group.index } row{ group.row }" colspan="{ group.count }"'
-        CHOOSE_TEXT = (" (choose " + str(group.required) + ")" ) if group.count else ""
+        CLASSES = f'class="row{ group.row }"'
+        COLSPAN = f'colspan="{ group.count }"'
         ROWSPAN = f'rowspan="{ 5 - group.row - 1 }"' if IS_LAST else ""
-        groups_html[group.row] += f'<th { CLASSES } { ROWSPAN }>{ group.title }{ CHOOSE_TEXT }</th>'
+        CHOOSE_TEXT = (" (choose " + str(group.required) + ")" ) if group.count else ""
+        groups_html[group.row] += f'<th { CLASSES } { COLSPAN } { ROWSPAN }>{ group.title }{ CHOOSE_TEXT }</th>'
 
         # Increment index
         current_group_index[group.row] += group.count
@@ -58,15 +62,94 @@ def index(request):
     for course in Course.objects.all():
         courses_html += f'<td class="col{ course.index }">{ course }</td>'
 
+    print(CourseSelection.objects.all())
+
     context = {
         "groups": groups_html,
         "courses": courses_html,
         "course_count": range(Course.objects.count()),
         "year_count": range(4),
-        "semesters": ["Fall", "Spring", "Summer 1", "Summer 2"]
+        "semesters": ["Fall", "Spring", "Summer 1", "Summer 2"],
+        "selected_courses": CourseSelection.objects.all()
     }
 
     return render(request, 'index.html', context)
 
+
+"""
+Returns all current course selections
+"""
+def get_selections(request):
+    # Check for ajax and get
+    if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+        if request.method == 'GET':
+            
+            # Get all model info
+            selections = []
+            for item in CourseSelection.objects.all():
+                selections.append({
+                    "column": item.course.index,
+                    "year": item.year - 1,
+                    "semester": item.semester
+                })
+
+            return JsonResponse({'data': selections}, status=200)
+        return JsonResponse({'status': 'Invalid request'}, status=400)
+    return HttpResponseBadRequest()
+
+
+"""
+Add course selection from POST request to models
+"""
+def add_course(request):
+    # Check for ajax and post
+    if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+        if request.method == 'POST':
+
+            data = json.load(request)
+
+            # Find course
+            course = Course.objects.filter(index=data.get('column')).first()
+
+            # Create model object
+            CourseSelection.objects.create(
+                course = course,
+                year = data.get('year') + 1,
+                semester = data.get('semester')
+            )
+
+            return JsonResponse({'status': 'Success'}, status=200)
+        return JsonResponse({'status': 'Invalid request'}, status=400)
+    return HttpResponseBadRequest()
+
+
+"""
+Removes course selection from models
+"""
+def remove_course(request):
+    # Check for ajax and post
+    if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+        if request.method == 'POST':
+            
+            data = json.load(request)
+
+            # Find course
+            course = Course.objects.filter(index=data.get('column')).first()
+
+            # Delete selection
+            CourseSelection.objects.filter(
+                course = course,
+                year = data.get('year') + 1,
+                semester = data.get('semester')
+            ).delete()
+
+            return JsonResponse({'status': 'Success'}, status=200)
+        return JsonResponse({'status': 'Invalid request'}, status=400)
+    return HttpResponseBadRequest()
+
+
+"""
+Return view to add new program WIP
+"""
 def add_program_view(request):
     return render(request, 'add_program.html')

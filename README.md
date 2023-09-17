@@ -5,6 +5,10 @@ Program Rundown:
 - JS: on click, call django view
 
 
+RULES FOR COURSE:
+- 
+
+
 TODO:
 - Add opening and closing of tab groups
 - Add possibility to add electives
