@@ -62,8 +62,6 @@ def index(request):
     for course in Course.objects.all():
         courses_html += f'<td class="col{ course.index }">{ course }</td>'
 
-    print(CourseSelection.objects.all())
-
     context = {
         "groups": groups_html,
         "courses": courses_html,

@@ -38,13 +38,61 @@ function POST(url, data) {
       .then(response => response.json())
 }
 
+function checkForRowErrors(year, semester) {
+
+    // Check if adding class made it more than 4 per semester
+    selectedInRow = document.querySelectorAll(`td[data-year="${year}"][data-semester="${semester}"].sel.selected`)
+    if (selectedInRow.length > 4)
+        // Mark red
+        selectedInRow.forEach((cell) => {
+            cell.classList.add('row-error')
+        })
+    else
+        // Remove safe cells from error class
+        selectedInRow.forEach((cell) => {
+            // Mark safe if cell is error free in all ways
+            cell.classList.remove('row-error')
+        })    
+}
+
+function checkForColumnError(index) {
+
+    // Check if adding class made it more than 1 per course
+    selectedInColumn = document.querySelectorAll(`td[data-column="${index}"].sel.selected`)
+    if (selectedInColumn.length > 1)
+        selectedInColumn.forEach((cell) => {
+            cell.classList.add('column-error')
+        })
+    else
+        // Remove safe cells from error class
+        selectedInColumn.forEach((cell) => {
+            cell.classList.remove('column-error')
+        })    
+}
+
 window.addEventListener('load', async () => {
 
     /*
         ADD SELECTED CELLS CLASS AT BEGINNING
     */
-    for (course of await GET("getselections"))
-        cell = document.querySelectorAll(`td[data-column="${course.column}"][data-year="${course.year}"][data-semester="${course.semester}"]`).item(0)?.classList.add('selected')
+    let columns = new Set()
+    let rows = []
+    for (course of await GET("getselections")) {
+        const STRING = `td[data-column="${course.column}"][data-year="${course.year}"][data-semester="${course.semester}"].sel`
+        cell = document.querySelectorAll(STRING).item(0)?.classList.add('selected')
+
+        // Add column and row to arrays
+        columns.add(course.column)
+        rows.push([course.year, course.semester])
+    }
+
+    /*
+        ADD ERROR MARKINGS
+    */
+    for (c of [...columns])
+        checkForColumnError(c)
+    for (r of Array.from(new Set(rows.map(JSON.stringify)), JSON.parse))
+        checkForRowErrors(r[0], r[1])
 
     /*
         SELECTION AND DESELECTION OF CELLS
@@ -71,6 +119,10 @@ window.addEventListener('load', async () => {
                 })
                 cell.classList.add('selected')
             }
+
+            // Check for errors
+            checkForRowErrors(parseInt(cell.dataset.year), cell.dataset.semester)
+            checkForColumnError(cell.dataset.column)
 
         })
     })
