@@ -33,3 +33,6 @@ class CourseSelection(models.Model):
     course = models.ForeignKey("Course", on_delete=models.CASCADE)
     year = models.PositiveSmallIntegerField()
     semester = models.CharField(max_length=2, choices=Semester.choices)
+
+    def __str__(self) -> str:
+        return self.course.code + " in year " + str(self.year) + " " + self.semester 

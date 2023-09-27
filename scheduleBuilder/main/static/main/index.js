@@ -14,15 +14,15 @@ function getCookie(name) {
     return cookieValue;
 }
 
-function GET(url) {
-    return fetch(`/ajax/${url}`, {
+async function GET(url) {
+    const response = await fetch(`/ajax/${url}`, {
         method: "GET",
         headers: {
-          "X-Requested-With": "XMLHttpRequest",
+            "X-Requested-With": "XMLHttpRequest",
         },
-      })
-      .then(response => response.json())
-      .then(data => data.data )
+    });
+    const data = await response.json();
+    return data.data;
 }
 
 function POST(url, data) {
@@ -127,11 +127,64 @@ window.addEventListener('load', async () => {
         })
     })
 
+    /*
+        HIDING AND SHOWING OF COLUMNS
+    */
+    const selectableGroups = document.querySelectorAll("th")
 
-    // Hiding columns
-    /*document.getElementById('bb8').addEventListener('click', (e) => {
-        document.querySelectorAll("td:nth-child(5), th:nth-child(5)").forEach((item) => {
-            item.style.display = 'none'
+    selectableGroups.forEach(group => {
+        group.addEventListener('click', async (e) => {
+            // Get data from selected group
+            const groupData = (await GET(`getgroups?col=${group.dataset.column}&row=${group.dataset.row}`))[0]
+
+            // Shrink super group down
+            const superGroupData = await GET(`getsupergroup?col=${group.dataset.column}&row=${group.dataset.row}`)
+            const superGroup = document.querySelector(`th[data-column="${superGroupData.column}"][data-row="${superGroupData.row}"]`)
+
+            superGroup.colSpan -= group.colSpan - 1
+            console.log(superGroup)
+
+            // Make the group cell smaller but tall
+            group.colSpan = "1"
+            group.rowSpan = 5 - group.dataset.row
+            group.classList.add('hidden')
+
+            for (i = groupData.column; i < groupData.column + groupData.count; i++) {
+                // Delete the original course code cells
+                document.querySelector(`.col${i}`).remove()
+
+                // Delete all subgroups
+                for (j = parseInt(group.dataset.row) + 1; j < 6; j++) {
+                    document.querySelectorAll(`th[data-column="${i}"][data-row="${j}"]`).forEach((cell) => {
+                        cell.remove()
+                    })
+                }
+
+                // Delete blank spaces
+                document.querySelectorAll(`td[data-column="${i}"]:not([data-row="${group.dataset.row}"]):not(.sel):empty`).forEach((cell) => {
+                    cell.remove()
+                })
+
+                if (i > groupData.column) {
+                    // Delete all selectable columns except first
+                    document.querySelectorAll(`td[data-column="${i}"].sel`).forEach((cell) => {
+                        cell.remove()
+                    })
+                }
+            }
+
+            // Set number and color for each semester
+            for (year in groupData.selected_per_semester)
+                for (semester in groupData.selected_per_semester[year]) {
+                    // Number and color if more than 0
+                    if (groupData.selected_per_semester[year][semester] > 0) {
+                        cell = document.querySelector(`td[data-column="${groupData.column}"][data-year="${year - 1}"][data-semester="${semester}"]`)
+                        
+                        cell.innerHTML = groupData.selected_per_semester[year][semester]
+                        cell.classList.add('selected')
+                        
+                    }
+                }
         })
-    })*/
+    })
 })

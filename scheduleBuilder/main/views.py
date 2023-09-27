@@ -39,7 +39,7 @@ def index(request):
 
         # Check to add blank space
         while group.index is not current_group_index[group.row]:
-            groups_html[group.row] += "<td></td>"
+            groups_html[group.row] += f'<td data-column="{current_group_index[group.row]}" data-row="{group.row}"></td>'
             current_group_index[group.row] += 1
 
         # Calculate added index due to rowspan
@@ -48,11 +48,13 @@ def index(request):
                 current_group_index[i] += group.count
 
         # Create html
+        TITLE = 'title="Click to hide this group"'
         CLASSES = f'class="row{ group.row }"'
         COLSPAN = f'colspan="{ group.count }"'
         ROWSPAN = f'rowspan="{ 5 - group.row - 1 }"' if IS_LAST else ""
+        DATA = f'data-column="{ group.index }" data-row="{ group.row }"'
         CHOOSE_TEXT = (" (choose " + str(group.required) + ")" ) if group.count else ""
-        groups_html[group.row] += f'<th { CLASSES } { COLSPAN } { ROWSPAN }>{ group.title }{ CHOOSE_TEXT }</th>'
+        groups_html[group.row] += f'<th { TITLE } { CLASSES } { COLSPAN } { ROWSPAN } { DATA }>{ group.title }{ CHOOSE_TEXT }</th>'
 
         # Increment index
         current_group_index[group.row] += group.count
@@ -75,16 +77,29 @@ def index(request):
 
 
 """
-Returns all current course selections
+Returns current course selections with optional criteria
 """
 def get_selections(request):
     # Check for ajax and get
     if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
         if request.method == 'GET':
+            # Create filter
+            filters = {}
+
+            # Check the query
+            column = request.GET.get('col')
+            if column:
+                filters['course__index'] = column
+            year = request.GET.get('year')
+            if year:
+                filters['year'] = int(year) + 1
+            semester = request.GET.get('sem')
+            if semester:
+                filters['semester'] = semester
             
             # Get all model info
             selections = []
-            for item in CourseSelection.objects.all():
+            for item in CourseSelection.objects.filter(**filters):
                 selections.append({
                     "column": item.course.index,
                     "year": item.year - 1,
@@ -95,6 +110,104 @@ def get_selections(request):
         return JsonResponse({'status': 'Invalid request'}, status=400)
     return HttpResponseBadRequest()
 
+
+"""
+Returns groups based on optional criteria
+"""
+def get_groups(request):
+    """
+    Recursive function to return the total amount of selected cells
+    """
+    def get_selected_per_semester(group, selected_per_semester):
+        
+        # Add count of courses per semester
+        for course in CourseSelection.objects.filter(course__group=group):
+            selected_per_semester[f'{course.year}'][course.semester] += 1
+
+        # Check if group contains subgroups
+        for subgroup in CourseGroup.objects.filter(group=group):
+            get_selected_per_semester(subgroup, selected_per_semester)
+
+        return selected_per_semester
+
+
+    # Check for ajax and get
+    if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+        if request.method == 'GET':
+            # Create filter
+            filters = {}
+
+            # Check the query
+            column = request.GET.get('col')
+            if column:
+                filters['index'] = column
+            row = request.GET.get('row')
+            if row:
+                filters['row'] = row
+            
+            # Get all model info
+            selections = []
+            for item in CourseGroup.objects.filter(**filters):
+                # Get what semesters and how many courses are selected each
+                selected_per_semester = {
+                    "1": {
+                        "Fall": 0,
+                        "Spring": 0,
+                        "Summer 1": 0,
+                        "Summer 2": 0,
+                    },
+                    "2": {
+                        "Fall": 0,
+                        "Spring": 0,
+                        "Summer 1": 0,
+                        "Summer 2": 0,
+                    },
+                    "3": {
+                        "Fall": 0,
+                        "Spring": 0,
+                        "Summer 1": 0,
+                        "Summer 2": 0,
+                    },
+                    "4": {
+                        "Fall": 0,
+                        "Spring": 0,
+                        "Summer 1": 0,
+                        "Summer 2": 0,
+                    }
+                }
+                selected_per_semester = get_selected_per_semester(item, selected_per_semester)
+
+                selections.append({
+                    "column": item.index,
+                    "row": item.row,
+                    "title": item.title,
+                    "count": item.count,
+                    "selected_per_semester": selected_per_semester
+                })
+
+            return JsonResponse({'data': selections}, status=200)
+        return JsonResponse({'status': 'Invalid request'}, status=400)
+    return HttpResponseBadRequest()
+
+
+"""
+Returns the group super to the one provided
+"""
+def get_super_group(request):
+    # Check for ajax, get, and parameters
+    if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+        if request.method == 'GET' and request.GET.get('col') and request.GET.get('row'):
+            
+            super_group = CourseGroup.objects.get(pk=CourseGroup.objects.filter(index=request.GET.get('col')).get(row=request.GET.get('row')).group.pk)
+
+            data = {
+                "column": super_group.index,
+                "row": super_group.row
+            }
+
+            return JsonResponse({'data': data}, status=200)
+        return JsonResponse({'status': 'Invalid request'}, status=400)
+    return HttpResponseBadRequest()
 
 """
 Add course selection from POST request to models

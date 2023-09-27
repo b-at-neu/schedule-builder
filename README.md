@@ -1,12 +1,14 @@
-Program Rundown:
-- 
-- Generate html from database
-- Display html on page
-- JS: on click, call django view
-
-
 TODO:
 - Add opening and closing of tab groups
+    - Add opening
+    - Disable selecting and deselecting when tab is hidden
+    - Fix bug that occurs when a subgroup is hidden and the user tries to hide supergroup
 - Add possibility to add electives
 - Add NU Path
 - Add uploading of JSON files
+- Add edit vs view modes
+- Change to use better colors
+- Add course credit numbers?
+- Remove choose text when there's only that many options anyways
+- Make the row-error and column-error not only change the color of the single cell but add a slight red hue to the entire row/column
+- Add blocking of classes as possibility
