@@ -135,10 +135,10 @@ window.addEventListener('load', async () => {
     selectableGroups.forEach(group => {
         group.addEventListener('click', async (e) => {
             // Get data from selected group
-            const groupData = (await GET(`getgroups?col=${group.dataset.column}&row=${group.dataset.row}`))[0]
+            const groupData = (await GET(`getgroups?index=${group.dataset.column}&row=${group.dataset.row}`))[0]
 
             // Shrink super group down
-            const superGroupData = await GET(`getsupergroup?col=${group.dataset.column}&row=${group.dataset.row}`)
+            const superGroupData = await GET(`getsupergroup?index=${group.dataset.column}&row=${group.dataset.row}`)
             const superGroup = document.querySelector(`th[data-column="${superGroupData.column}"][data-row="${superGroupData.row}"]`)
 
             superGroup.colSpan -= group.colSpan - 1

@@ -2,13 +2,29 @@ from django.urls import path
 
 from . import views
 
-urlpatterns = [
-    path("", views.index, name="index"),
-    path("addprogram", views.add_program_view, name="add program"),
+# Define a shortcut ajax path
+def ajax_path(name, type, parameters=[], optional_parameters=[]):
+    print(optional_parameters, " RAAAA")
+    return path(
+        f'ajax/{name.replace("_","")}',
+        views.ajax_handler,
+        {
+            'name': name,
+            'type': type,
+            'parameters': parameters,
+            'optional_parameters': optional_parameters
+        }
+    )
 
-    path("ajax/getselections", views.get_selections, name="get selections"),
-    path("ajax/getgroups", views.get_groups, name="get groups"),
-    path("ajax/getsupergroup", views.get_super_group, name="get super group"),
-    path("ajax/addcourse", views.add_course, name="add course"),
-    path("ajax/removecourse", views.remove_course, name="remove course"),
+
+urlpatterns = [
+    path("", views.index,),
+    path("addprogram", views.add_program_view),
+
+    # AJAX
+    ajax_path('get_selections', 'GET', optional_parameters=['course__index', 'year', 'semester']),
+    ajax_path('get_groups', 'GET', optional_parameters=['index','row']),
+    ajax_path('get_super_group', 'GET', parameters=['index', 'row']),
+    ajax_path('add_course', 'POST'),
+    ajax_path('remove_course', 'POST'),
 ]

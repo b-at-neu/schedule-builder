@@ -12,3 +12,6 @@ TODO:
 - Remove choose text when there's only that many options anyways
 - Make the row-error and column-error not only change the color of the single cell but add a slight red hue to the entire row/column
 - Add blocking of classes as possibility
+- Standardize count of years in front and backend (no more year 0)
+- Standardize column instead of index in front and backend
+- Use the pk of every group as unique identifier instead of column and row
