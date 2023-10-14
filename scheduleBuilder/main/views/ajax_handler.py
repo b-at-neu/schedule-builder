@@ -28,7 +28,6 @@ def ajax_handler(request, name, type, parameters, optional_parameters):
                 return JsonResponse({'status': f'Invalid request. Parameter "{p}" not found.'}, status=400)
 
         for p in optional_parameters:
-            print(p)
             if request.GET.get(p) is not None:
                 filters[p] = request.GET.get(p)
 

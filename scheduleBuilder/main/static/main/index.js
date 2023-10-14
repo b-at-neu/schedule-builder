@@ -41,15 +41,25 @@ function POST(url, data) {
 function checkForRowErrors(year, semester) {
 
     // Check if adding class made it more than 4 per semester
-    selectedInRow = document.querySelectorAll(`td[data-year="${year}"][data-semester="${semester}"].sel.selected`)
-    if (selectedInRow.length > 4)
-        // Mark red
-        selectedInRow.forEach((cell) => {
+    row = document.querySelectorAll(`td[data-year="${year}"][data-semester="${semester}"].sel`)
+
+    // Add the total count of selected including hidden
+    let count = 0
+    document.querySelectorAll(`td[data-year="${year}"][data-semester="${semester}"].sel.selected`).forEach((cell) => {
+        if (cell.innerHTML)
+            count += parseInt(cell.innerHTML)
+        else
+            count++
+    })
+
+    if (count > 4)
+        // Mark entire row red
+        row.forEach((cell) => {
             cell.classList.add('row-error')
         })
     else
         // Remove safe cells from error class
-        selectedInRow.forEach((cell) => {
+        row.forEach((cell) => {
             // Mark safe if cell is error free in all ways
             cell.classList.remove('row-error')
         })    
@@ -58,14 +68,14 @@ function checkForRowErrors(year, semester) {
 function checkForColumnError(index) {
 
     // Check if adding class made it more than 1 per course
-    selectedInColumn = document.querySelectorAll(`td[data-column="${index}"].sel.selected`)
-    if (selectedInColumn.length > 1)
-        selectedInColumn.forEach((cell) => {
+    column = document.querySelectorAll(`td[data-column="${index}"].sel`)
+    if (document.querySelectorAll(`td[data-column="${index}"].sel.selected`).length > 1)
+        column.forEach((cell) => {
             cell.classList.add('column-error')
         })
     else
         // Remove safe cells from error class
-        selectedInColumn.forEach((cell) => {
+        column.forEach((cell) => {
             cell.classList.remove('column-error')
         })    
 }
@@ -94,6 +104,7 @@ window.addEventListener('load', async () => {
     for (r of Array.from(new Set(rows.map(JSON.stringify)), JSON.parse))
         checkForRowErrors(r[0], r[1])
 
+
     /*
         SELECTION AND DESELECTION OF CELLS
     */
@@ -101,6 +112,10 @@ window.addEventListener('load', async () => {
     
     selectableCells.forEach(cell => {
         cell.addEventListener('click', (e) => {
+            // Check if the cell is hidden
+            if (cell.classList.contains('hidden'))
+                return
+
             if (cell.classList.contains('selected')) {
                 // Send course deletion
                 POST("removecourse", {
@@ -134,57 +149,87 @@ window.addEventListener('load', async () => {
 
     selectableGroups.forEach(group => {
         group.addEventListener('click', async (e) => {
+
             // Get data from selected group
             const groupData = (await GET(`getgroups?index=${group.dataset.column}&row=${group.dataset.row}`))[0]
 
-            // Shrink super group down
+            // Get supergroup
             const superGroupData = await GET(`getsupergroup?index=${group.dataset.column}&row=${group.dataset.row}`)
             const superGroup = document.querySelector(`th[data-column="${superGroupData.column}"][data-row="${superGroupData.row}"]`)
 
-            superGroup.colSpan -= group.colSpan - 1
-            console.log(superGroup)
+            if (group.classList.contains('hidden')) {
+                // UNHIDE
+                
 
-            // Make the group cell smaller but tall
-            group.colSpan = "1"
-            group.rowSpan = 5 - group.dataset.row
-            group.classList.add('hidden')
+                // Expand super group
+                superGroup.colSpan += group.colSpan - 1
 
-            for (i = groupData.column; i < groupData.column + groupData.count; i++) {
-                // Delete the original course code cells
-                document.querySelector(`.col${i}`).remove()
+                // Make the group cell expand again
+                IS_LAST = true /////// FIX ---------------------
+                group.colSpan = groupData.count
+                group.rowSpan = IS_LAST ? 1 : 5 - group.dataset.row - 1
+                group.classList.remove('hidden')
 
-                // Delete all subgroups
-                for (j = parseInt(group.dataset.row) + 1; j < 6; j++) {
-                    document.querySelectorAll(`th[data-column="${i}"][data-row="${j}"]`).forEach((cell) => {
-                        cell.remove()
-                    })
-                }
+                // Perhaps just make request for backend to generate html again?
+                
+                // Instead of deleting the original cells, maybe make them width 0?
+                console.log("rarar")
+            
+            } else {
+            // HIDE
 
-                // Delete blank spaces
-                document.querySelectorAll(`td[data-column="${i}"]:not([data-row="${group.dataset.row}"]):not(.sel):empty`).forEach((cell) => {
-                    cell.remove()
-                })
+                // Shrink super group down
+                superGroup.colSpan -= group.colSpan - 1
 
-                if (i > groupData.column) {
-                    // Delete all selectable columns except first
-                    document.querySelectorAll(`td[data-column="${i}"].sel`).forEach((cell) => {
-                        cell.remove()
-                    })
-                }
-            }
+                // Make the group cell smaller but tall
+                group.colSpan = "1"
+                group.rowSpan = 5 - group.dataset.row
+                group.classList.add('hidden')
 
-            // Set number and color for each semester
-            for (year in groupData.selected_per_semester)
-                for (semester in groupData.selected_per_semester[year]) {
-                    // Number and color if more than 0
-                    if (groupData.selected_per_semester[year][semester] > 0) {
-                        cell = document.querySelector(`td[data-column="${groupData.column}"][data-year="${year - 1}"][data-semester="${semester}"]`)
-                        
-                        cell.innerHTML = groupData.selected_per_semester[year][semester]
-                        cell.classList.add('selected')
-                        
+                for (i = groupData.column; i < groupData.column + groupData.count; i++) {
+                    // Delete the original course code cells
+                    document.querySelector(`.col${i}`).remove()
+
+                    // Delete all subgroups
+                    for (j = parseInt(group.dataset.row) + 1; j < 6; j++) {
+                        document.querySelectorAll(`th[data-column="${i}"][data-row="${j}"]`).forEach((cell) => {
+                            cell.remove()
+                        })
                     }
+
+                    // Delete blank spaces
+                    document.querySelectorAll(`td[data-column="${i}"]:not([data-row="${group.dataset.row}"]):not(.sel):empty`).forEach((cell) => {
+                        cell.remove()
+                    })
+
+                    // Delete all selectable columns except first
+                    if (i > groupData.column) {
+                        document.querySelectorAll(`td[data-column="${i}"].sel`).forEach((cell) => {
+                            cell.remove()
+                        })
+                    
+                    // Add hidden class to first column
+                    } else {
+                        document.querySelectorAll(`td[data-column="${i}"].sel`).forEach((cell) => {
+                            cell.classList.add('hidden')
+                        })
+                    }
+
                 }
+
+                // Set number and color for each semester
+                for (year in groupData.selected_per_semester)
+                    for (semester in groupData.selected_per_semester[year]) {
+                        // Number and color if more than 0
+                        if (groupData.selected_per_semester[year][semester] > 0) {
+                            cell = document.querySelector(`td[data-column="${groupData.column}"][data-year="${year - 1}"][data-semester="${semester}"]`)
+                            
+                            cell.innerHTML = groupData.selected_per_semester[year][semester]
+                            cell.classList.add('selected')
+                            
+                        }
+                    }
+            }
         })
     })
 })

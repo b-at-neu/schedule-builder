@@ -4,7 +4,6 @@ from . import views
 
 # Define a shortcut ajax path
 def ajax_path(name, type, parameters=[], optional_parameters=[]):
-    print(optional_parameters, " RAAAA")
     return path(
         f'ajax/{name.replace("_","")}',
         views.ajax_handler,

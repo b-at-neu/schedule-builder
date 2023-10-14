@@ -45,15 +45,23 @@
             background-color: #5e5e5e;
             color: #ffffff;
         }
+        td.sel:not(.hidden) {
+            cursor: pointer;
+        }
         td.sel {
             border: 1px solid;
-            cursor: pointer;
+        }
+        td.hidden {
+            background-color: #e6e6e6;
         }
         td.selected {
             background-color: #00ff00;
         }
+        td.row-error, td.column-error {
+            background-color: #ff00003f;
+        }
         td.selected.row-error, td.selected.column-error {
-            background-color: #ff0000;
+            background-color: #ff7700;
         }
     </style>
     <title>Scheduling Planner</title>
