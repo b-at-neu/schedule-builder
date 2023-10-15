@@ -15,7 +15,6 @@ TODO:
 - Standardize count of years in front and backend (no more year 0)
 - Standardize column instead of index in front and backend
 - Use the pk of every group as unique identifier instead of column and row
-- Move js into multiple files
 - Add option to clear all selected classes
 - Add option to put in AP credits
     - With automatic test values and calculation
