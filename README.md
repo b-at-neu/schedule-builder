@@ -19,8 +19,6 @@ TODO:
 - Add option to put in AP credits
     - With automatic test values and calculation
 - Make years and semesters column stick to the left side when scrolling
-- Switch all html generating to be front-end
-- Catch errors if all courses for one group are exceeded
 - Allow selection of entire group as a course
 - Change color of group once all requirements are complete
-- 
+- Fix bug that header row only allows 14 courses

@@ -2,7 +2,7 @@ from django.http import JsonResponse
 from main.models import CourseGroup, CourseSelection
 
 """
-Recursive function to return the total amount of selected cells
+Recursive function to return the amount of selected cells by semester
 """
 def get_selected_per_semester(group, selected_per_semester):
     
@@ -15,6 +15,20 @@ def get_selected_per_semester(group, selected_per_semester):
         get_selected_per_semester(subgroup, selected_per_semester)
 
     return selected_per_semester
+
+"""
+Recursive function to return the total amount of selected cells
+"""
+def get_selected_total(group, selected_total):
+    
+    # Add count of all courses
+    selected_total += CourseSelection.objects.filter(course__group=group).count()
+
+    # Check if group contains subgroups
+    for subgroup in CourseGroup.objects.filter(group=group):
+        selected_total = get_selected_total(subgroup, selected_total)
+
+    return selected_total
 
 
 """
@@ -53,13 +67,15 @@ def get_selections_by_group(filters):
             }
         }
         selected_per_semester = get_selected_per_semester(item, selected_per_semester)
+        selected_total = get_selected_total(item, 0)
 
         selections.append({
             "column": item.index,
             "row": item.row,
             "title": item.title,
             "count": item.count,
-            "selected_per_semester": selected_per_semester
+            "selected_per_semester": selected_per_semester,
+            "selected_total": selected_total,
         })
 
     return JsonResponse({'data': selections}, status=200)

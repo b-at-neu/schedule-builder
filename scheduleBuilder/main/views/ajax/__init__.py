@@ -6,3 +6,4 @@ from .remove_course import remove_course
 from .get_groups import get_groups
 from .get_courses import get_courses
 from .get_setup_info import get_setup_info
+from .remove_all_courses import remove_all_courses

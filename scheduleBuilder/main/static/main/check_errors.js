@@ -1,3 +1,5 @@
+import { GET } from './ajax.js'
+
 export function checkForRowErrors(year, semester) {
 
     // Check if adding class made it more than 4 per semester
@@ -37,5 +39,24 @@ export function checkForColumnError(index) {
         // Remove safe cells from error class
         column.forEach((cell) => {
             cell.classList.remove('column-error')
-        })    
+        })
+}
+
+export async function checkForGroupError(index) {
+    // Check if the provided group has more classes than allowed
+    const groups = (await GET(`getgroups`)).filter((e) => index >= e.index && index < e.index + e.count)
+    groups.forEach(async (e) => {
+        // Get all selected cells in group
+        const selected = (await GET(`getselectionsbygroup?index=${e.index}&row=${e.row}`))[0].selected_total
+
+        console.log(selected)
+        // Check if the number is more than required (or less) and mark red
+        const groupCell = document.querySelector(`th[data-column="${e.index}"][data-row="${e.row}"]`)
+        if (selected > e.required)
+            groupCell.classList.add('group-error')
+        else
+            groupCell.classList.remove('group-error')
+
+    })
+    console.log(groups)
 }

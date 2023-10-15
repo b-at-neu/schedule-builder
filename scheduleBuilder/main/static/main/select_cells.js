@@ -1,4 +1,4 @@
-import { checkForColumnError, checkForRowErrors } from './check_errors.js'
+import { checkForColumnError, checkForGroupError, checkForRowErrors } from './check_errors.js'
 import { POST } from './ajax.js'
 
 export function select_cells() {
@@ -32,7 +32,7 @@ export function select_cells() {
             // Check for errors
             checkForRowErrors(parseInt(cell.dataset.year), cell.dataset.semester)
             checkForColumnError(cell.dataset.column)
-
+            checkForGroupError(cell.dataset.column)
         })
     })
 }

@@ -9,7 +9,7 @@ def get_groups(filter):
     groups = []
 
     # Get data from every group
-    for group in CourseGroup.objects.order_by("index"):
+    for group in CourseGroup.objects.filter(**filter).order_by("index"):
         groups.append({
             "index": group.index,
             "row": group.row,
