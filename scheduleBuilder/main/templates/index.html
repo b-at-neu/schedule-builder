@@ -68,42 +68,7 @@
 </head>
 <body>
 
-    <table>
-
-        {% autoescape off %}
-
-            <!-- Add groups to top row-->
-            {% for group in groups %}
-                <tr>
-                    <td></td>
-                    <td></td>
-                    {{ group }}
-                </tr>
-            {% endfor %}
-
-            <!-- Add courses to top row -->
-            <tr>
-                <td></td>
-                <td></td>
-                {{ courses }}
-            </tr>
-
-        {% endautoescape %}
-        
-        <!-- Add the calender selection on the left -->
-
-        {% for year in year_count %}
-            <td rowspan="{{ semesters|length|add:1 }}">YEAR {{ year|add:1 }}</td>    
-            {% for semester in semesters %}
-                <tr>
-                    <td>{{ semester }}</td>
-                    {% for i in course_count %}
-                        <td class="sel" title="Click to select this course" data-column="{{ i }}" data-year="{{ year }}" data-semester="{{ semester }}"></td>
-                    {% endfor %}
-                </tr>
-            {% endfor %}
-        {% endfor %}
-    </table>
+    <table id="table"></table>
 
 </body>
 </html>

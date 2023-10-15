@@ -1,65 +1,22 @@
 from django.http import JsonResponse
-from main.models import CourseGroup, CourseSelection
+from main.models import CourseGroup
 
 """
-Recursive function to return the total amount of selected cells
+Returns all group data
 """
-def get_selected_per_semester(group, selected_per_semester):
-    
-    # Add count of courses per semester
-    for course in CourseSelection.objects.filter(course__group=group):
-        selected_per_semester[f'{course.year}'][course.semester] += 1
+def get_groups(filter):
 
-    # Check if group contains subgroups
-    for subgroup in CourseGroup.objects.filter(group=group):
-        get_selected_per_semester(subgroup, selected_per_semester)
+    groups = []
 
-    return selected_per_semester
-
-
-"""
-Returns groups based on optional criteria
-"""
-def get_groups(filters):
-        
-    # Get all model info
-    selections = []
-    for item in CourseGroup.objects.filter(**filters):
-        # Get what semesters and how many courses are selected each
-        selected_per_semester = {
-            "1": {
-                "Fall": 0,
-                "Spring": 0,
-                "Summer 1": 0,
-                "Summer 2": 0,
-            },
-            "2": {
-                "Fall": 0,
-                "Spring": 0,
-                "Summer 1": 0,
-                "Summer 2": 0,
-            },
-            "3": {
-                "Fall": 0,
-                "Spring": 0,
-                "Summer 1": 0,
-                "Summer 2": 0,
-            },
-            "4": {
-                "Fall": 0,
-                "Spring": 0,
-                "Summer 1": 0,
-                "Summer 2": 0,
-            }
-        }
-        selected_per_semester = get_selected_per_semester(item, selected_per_semester)
-
-        selections.append({
-            "column": item.index,
-            "row": item.row,
-            "title": item.title,
-            "count": item.count,
-            "selected_per_semester": selected_per_semester
+    # Get data from every group
+    for group in CourseGroup.objects.order_by("index"):
+        groups.append({
+            "index": group.index,
+            "row": group.row,
+            "count": group.count,
+            "required": group.required,
+            "title": group.title,
+            "is_last": not CourseGroup.objects.filter(group=group).count()
         })
 
-    return JsonResponse({'data': selections}, status=200)
+    return JsonResponse({'data': groups}, status=200)

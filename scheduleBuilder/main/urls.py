@@ -22,8 +22,12 @@ urlpatterns = [
 
     # AJAX
     ajax_path('get_selections', 'GET', optional_parameters=['course__index', 'year', 'semester']),
-    ajax_path('get_groups', 'GET', optional_parameters=['index','row']),
+    ajax_path('get_selections_by_group', 'GET', optional_parameters=['index','row']),
     ajax_path('get_super_group', 'GET', parameters=['index', 'row']),
+    ajax_path('get_groups', 'GET'),
+    ajax_path('get_courses', 'GET'),
+    ajax_path('get_setup_info', 'GET'),
+
     ajax_path('add_course', 'POST'),
     ajax_path('remove_course', 'POST'),
 ]
