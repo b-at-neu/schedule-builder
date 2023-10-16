@@ -14,19 +14,19 @@
             table-layout: auto;
             font-family: sans-serif;
             font-size: 0.7em;
-            border-collapse: collapse;
+            border-collapse: separate;
         }
         th, td {
-            width: 150px;
             height: 30px;
             padding: 5px;
             text-align: center;
             vertical-align: middle;
+            background-color: #ffffff;
         }
         th {
             cursor: pointer;
         }
-        th:not(:empty), td:not(:empty) {
+        th:not(:empty), td:not(:empty), td.sticky {
             border: 1px solid;
         }
         th.row0 {
@@ -53,6 +53,16 @@
         }
         td.hidden {
             background-color: #e6e6e6;
+        }
+        td.sticky {
+            left: 0;
+            z-index: 50;
+            position: sticky;
+        }
+        td.sticky2 {
+            left: 42px;
+            z-index: 50;
+            position: sticky;
         }
         [data-hidden] {
             display: none;

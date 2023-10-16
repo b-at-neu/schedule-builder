@@ -14,8 +14,12 @@ TODO:
 - Add option to put in AP credits
     - With automatic test values and calculation
 - Make years and semesters column stick to the left side when scrolling
+    - Yes but the columns move weirdly
 - Allow selection of entire group as a course
 - Change color of group once all requirements are complete
 - Add button to change amount of years
 - Add option to add a coop
 - Fix bug with row errors not working when parts of row are hidden
+- Fix bug with column errors not working when column is hidden
+    - Maybe move error processing to be backend?
+- Decrease amount of backend calls

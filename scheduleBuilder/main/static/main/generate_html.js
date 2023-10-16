@@ -12,9 +12,12 @@ export async function generate() {
     ]
     const titleIndeces = [0, 0, 0, 0]
         
-    // Add empty cells
-    for (const row of titleRows)
-        row.append(document.createElement("td"), document.createElement("td"))
+    // Add big empty cell
+    const emptyTd = document.createElement("td")
+    emptyTd.classList.add("sticky")
+    emptyTd.rowSpan = 5
+    emptyTd.colSpan = 2
+    titleRows[0].append(emptyTd)
             
     // Add all groups
     for (const group of await GET("getgroups")) {
@@ -50,9 +53,8 @@ export async function generate() {
         titleIndeces[group.row] += group.count
     }
 
-    // Add row and empty cells
+    // Add row
     const courseRow = table.appendChild(document.createElement("tr"))
-    courseRow.append(document.createElement("td"), document.createElement("td"))
 
     // Add all courses
     for (const course of await GET("getcourses")) {
@@ -86,6 +88,7 @@ export async function generate() {
             const tdYear = document.createElement("td")
             tdYear.colSpan = 2
             tdYear.innerHTML = "Credit"
+            tdYear.classList.add("sticky")
             row.appendChild(tdYear)
             table.appendChild(row)
 
@@ -98,6 +101,7 @@ export async function generate() {
         const tdYear = document.createElement("td")
         tdYear.rowSpan = info.semesters.length
         tdYear.innerHTML = `YEAR ${i}`
+        tdYear.classList.add("sticky")
         row.appendChild(tdYear)
         table.appendChild(row)
 
@@ -111,6 +115,7 @@ export async function generate() {
 
             const tdSemester = row.appendChild(document.createElement("td"))
             tdSemester.innerHTML = semester
+            tdSemester.classList.add("sticky2")
 
             addSelectableCells(row, i, semester)
         }
