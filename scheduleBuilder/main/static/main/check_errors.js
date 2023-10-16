@@ -47,16 +47,14 @@ export async function checkForGroupError(index) {
     const groups = (await GET(`getgroups`)).filter((e) => index >= e.index && index < e.index + e.count)
     groups.forEach(async (e) => {
         // Get all selected cells in group
-        const selected = (await GET(`getselectionsbygroup?index=${e.index}&row=${e.row}`))[0].selected_total
+        const selected = (await GET(`getselectionsbygroup?pk=${e.pk}`))[0].selected_total
 
-        console.log(selected)
         // Check if the number is more than required (or less) and mark red
-        const groupCell = document.querySelector(`th[data-column="${e.index}"][data-row="${e.row}"]`)
+        const groupCell = document.querySelector(`th[data-pk="${e.pk}"]`)
         if (selected > e.required)
             groupCell.classList.add('group-error')
         else
             groupCell.classList.remove('group-error')
 
     })
-    console.log(groups)
 }

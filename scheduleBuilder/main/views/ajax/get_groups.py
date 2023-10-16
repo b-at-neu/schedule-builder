@@ -11,6 +11,7 @@ def get_groups(filter):
     # Get data from every group
     for group in CourseGroup.objects.filter(**filter).order_by("index"):
         groups.append({
+            "pk": group.pk,
             "index": group.index,
             "row": group.row,
             "count": group.count,

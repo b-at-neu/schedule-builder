@@ -42,8 +42,7 @@ export async function generate() {
         title.classList.add(`row${group.row}`)
         title.colSpan = group.count
         title.rowSpan = group.is_last ? 5 - group.row - 1 : 1
-        title.dataset.column = group.index
-        title.dataset.row = group.row
+        title.dataset.pk = group.pk
         title.innerHTML = group.title + (group.count ? ` (choose ${group.required})` : "")
         titleRows[group.row].append(title)
 
@@ -73,7 +72,8 @@ export async function generate() {
         const tdYear = document.createElement("td")
         tdYear.rowSpan = info.semesters.length
         tdYear.innerHTML = `YEAR ${i}`
-        table.appendChild(row.appendChild(tdYear))
+        row.appendChild(tdYear)
+        table.appendChild(row)
 
         // Add semesters
         for (const semester of info.semesters) {

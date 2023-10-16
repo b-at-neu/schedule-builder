@@ -1,7 +1,4 @@
-import json
 from django.shortcuts import render
-from main.services.add_program import addProgram
-from main.models import Course, CourseGroup, CourseSelection
 
 """
 Returns main page view

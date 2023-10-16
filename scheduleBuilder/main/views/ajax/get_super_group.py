@@ -6,11 +6,18 @@ Returns the group super to the one provided
 """
 def get_super_group(filters):
     group = CourseGroup.objects.get(**filters)
-    super_group = CourseGroup.objects.get(pk=group.group.pk)
 
-    data = {
-        "column": super_group.index,
-        "row": super_group.row
-    }
+    # Check if it is a top level group
+    if group.row == 0:
+        data = None
+        
+    else:
+        super_group = CourseGroup.objects.filter(pk=group.group.pk).first()
+
+        data = {
+            "pk": super_group.pk,
+            "column": super_group.index,
+            "row": super_group.row
+        }
 
     return JsonResponse({'data': data}, status=200)

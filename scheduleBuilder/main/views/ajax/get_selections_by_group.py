@@ -70,6 +70,7 @@ def get_selections_by_group(filters):
         selected_total = get_selected_total(item, 0)
 
         selections.append({
+            "pk": item.pk,
             "column": item.index,
             "row": item.row,
             "title": item.title,

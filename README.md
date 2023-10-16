@@ -1,6 +1,5 @@
 TODO:
 - Add opening and closing of tab groups
-    - Add opening
     - Fix bug that occurs when a subgroup is hidden and the user tries to hide supergroup
     - Add data storage of hidden columns
     - Change the title of sel when a group is hidden
@@ -14,8 +13,6 @@ TODO:
 - Add blocking of classes as possibility
 - Standardize count of years in front and backend (no more year 0)
 - Standardize column instead of index in front and backend
-- Use the pk of every group as unique identifier instead of column and row
-- Add option to clear all selected classes
 - Add option to put in AP credits
     - With automatic test values and calculation
 - Make years and semesters column stick to the left side when scrolling
