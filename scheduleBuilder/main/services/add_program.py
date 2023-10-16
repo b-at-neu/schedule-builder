@@ -4,12 +4,23 @@ from main.models import Course, CourseGroup
 def addProgram(program):
 
     # Returns the amount of courses in the provided obj
-    def courseCount(obj):
+    def course_count(obj):
         l = len(obj.get("courses"))
         for item in obj.get("courses"):
             if type(item) is not str:
-                l += (courseCount(item) - 1)
+                l += (course_count(item) - 1)
         return l
+    
+    # Returns the amount of required courses in the provided obj
+    def required_course_count(obj):
+        count = obj.get('count')
+        if (count):
+            return count
+        count = len(obj.get("courses"))
+        for item in obj.get("courses"):
+            if type(item) is not str:
+                count += (required_course_count(item) - 1)
+        return count
 
     # Keep track of current index
     currentIndex = 0
@@ -18,8 +29,8 @@ def addProgram(program):
     root = CourseGroup(
         index = currentIndex,
         title = program.get('title'),
-        count = courseCount(program),
-        required = program.get('count') or len(program.get('courses')),
+        count = course_count(program),
+        required = required_course_count(program),
         row = 0
     )
     root.save()
@@ -46,8 +57,8 @@ def addProgram(program):
                     index = currentIndex,
                     group_id = id,
                     title = item.get('title', ''),
-                    count = courseCount(item),
-                    required = item.get('count') or len(item.get('courses')),
+                    count = course_count(item),
+                    required = required_course_count(item),
                     row = currentRow
                 )
                 group.save()

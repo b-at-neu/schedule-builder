@@ -43,7 +43,7 @@ export async function generate() {
         title.colSpan = group.count
         title.rowSpan = group.is_last ? 5 - group.row - 1 : 1
         title.dataset.pk = group.pk
-        title.innerHTML = group.title + (group.count ? ` (choose ${group.required})` : "")
+        title.innerHTML = group.title ? `${group.title} (${group.required})` : `(Choose ${group.required})`
         titleRows[group.row].append(title)
 
         // Increment index

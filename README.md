@@ -2,7 +2,6 @@ TODO:
 - Add opening and closing of tab groups
     - Fix bug that occurs when a subgroup is hidden and the user tries to hide supergroup
     - Add data storage of hidden columns
-    - Change the title of sel when a group is hidden
 - Add possibility to add electives
 - Add NU Path
 - Add uploading of JSON files
@@ -18,4 +17,5 @@ TODO:
 - Make years and semesters column stick to the left side when scrolling
 - Allow selection of entire group as a course
 - Change color of group once all requirements are complete
-- Fix bug that header row only allows 14 courses
+- Add button to change amount of years
+- Add option to add a coop
