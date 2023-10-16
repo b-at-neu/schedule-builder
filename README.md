@@ -1,6 +1,7 @@
 TODO:
 - Add opening and closing of tab groups
     - Add data storage of hidden columns
+    - When there are several hidden subgroups, the hiding takes a while
 - Add possibility to add electives
 - Add NU Path
 - Add uploading of JSON files

@@ -1,12 +1,22 @@
 import { GET } from './ajax.js'
 
+// Shrink or grow super groups
+async function changeSuperGroups(superGroupData, count, shrink) {
+    if (!superGroupData) return
+
+    const superGroup = document.querySelector(`th[data-pk="${superGroupData.pk}"]`)
+    if (shrink)
+        superGroup.colSpan -= count - 1
+    else
+        superGroup.colSpan += count - 1
+    changeSuperGroups(await GET(`getsupergroup?pk=${superGroupData.pk}`), count, shrink)
+}
+
 // Hides a certain column
 async function hideColumn(pk) {
     // Get data
     const group = document.querySelector(`th[data-pk="${pk}"]`)
     const groupData = (await GET(`getselectionsbygroup?pk=${pk}`))[0]
-    const superGroupData = await GET(`getsupergroup?pk=${pk}`)
-    const superGroup = superGroupData ? document.querySelector(`th[data-pk="${superGroupData.pk}"]`) : null
     const subgroups = await GET(`getsubgroups?pk=${pk}`)
                 
     // Unhide any hidden subgroups
@@ -14,9 +24,8 @@ async function hideColumn(pk) {
         if (document.querySelector(`th[data-pk="${subgroup.pk}"].hidden`))
            await unhideColumn(subgroup.pk)
 
-    // Shrink super group down
-    if (superGroup)
-        superGroup.colSpan -= group.colSpan - 1
+    // Shrink all super group down
+    changeSuperGroups(await GET(`getsupergroup?pk=${pk}`), group.colSpan, true)
 
     // Make the group cell smaller but tall
     group.colSpan = "1"
@@ -74,8 +83,6 @@ async function unhideColumn(pk) {
     // Get data
     const group = document.querySelector(`th[data-pk="${pk}"]`)
     const groupData = (await GET(`getselectionsbygroup?pk=${pk}`))[0]
-    const superGroupData = await GET(`getsupergroup?pk=${pk}`)
-    const superGroup = superGroupData ? document.querySelector(`th[data-pk="${superGroupData.pk}"]`) : null
 
     // Make the group cell expand again
     const IS_LAST = (await GET(`getgroups?pk=${group.dataset.pk}`))[0].is_last
@@ -83,9 +90,8 @@ async function unhideColumn(pk) {
     group.rowSpan = IS_LAST ? 5 - groupData.row - 1 : 1
     group.classList.remove('hidden')
 
-    // Expand super group
-    if (superGroup)
-        superGroup.colSpan += group.colSpan
+    // Expand all super groups
+    changeSuperGroups(await GET(`getsupergroup?pk=${pk}`), group.colSpan, false)
 
     // Grab all the cells that were originally hidden and make them appear again
     document.querySelectorAll(`[data-hidden="${groupData.pk}"]`).forEach((cell) => {
