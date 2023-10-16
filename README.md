@@ -1,6 +1,5 @@
 TODO:
 - Add opening and closing of tab groups
-    - Fix bug that occurs when a subgroup is hidden and the user tries to hide supergroup
     - Add data storage of hidden columns
 - Add possibility to add electives
 - Add NU Path
