@@ -77,15 +77,15 @@ async function unhideColumn(pk) {
     const superGroupData = await GET(`getsupergroup?pk=${pk}`)
     const superGroup = superGroupData ? document.querySelector(`th[data-pk="${superGroupData.pk}"]`) : null
 
-    // Expand super group
-    if (superGroup)
-    superGroup.colSpan += group.colSpan
-
     // Make the group cell expand again
     const IS_LAST = (await GET(`getgroups?pk=${group.dataset.pk}`))[0].is_last
     group.colSpan = groupData.count
     group.rowSpan = IS_LAST ? 5 - groupData.row - 1 : 1
     group.classList.remove('hidden')
+
+    // Expand super group
+    if (superGroup)
+        superGroup.colSpan += group.colSpan
 
     // Grab all the cells that were originally hidden and make them appear again
     document.querySelectorAll(`[data-hidden="${groupData.pk}"]`).forEach((cell) => {
