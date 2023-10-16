@@ -59,7 +59,7 @@ async function hideColumn(pk) {
         for (const semester in groupData.selected_per_semester[year]) {
             // Number and color if more than 0
             if (groupData.selected_per_semester[year][semester] > 0) {
-                const cell = document.querySelector(`td[data-column="${groupData.column}"][data-year="${year - 1}"][data-semester="${semester}"]`)
+                const cell = document.querySelector(`td[data-column="${groupData.column}"][data-year="${year}"][data-semester="${semester}"]`)
                 
                 cell.innerHTML = groupData.selected_per_semester[year][semester]
                 cell.classList.add('selected')

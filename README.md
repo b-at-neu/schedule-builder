@@ -9,7 +9,6 @@ TODO:
 - Add course credit numbers?
 - Remove choose text when there's only that many options anyways
 - Add blocking of classes as possibility
-- Standardize count of years in front and backend (no more year 0)
 - Standardize column instead of index in front and backend
 - Add option to put in AP credits
     - With automatic test values and calculation
@@ -18,3 +17,4 @@ TODO:
 - Change color of group once all requirements are complete
 - Add button to change amount of years
 - Add option to add a coop
+- Fix bug with row errors not working when parts of row are hidden

@@ -41,6 +41,9 @@ def get_selections_by_group(filters):
     for item in CourseGroup.objects.filter(**filters):
         # Get what semesters and how many courses are selected each
         selected_per_semester = {
+            "0": {
+                "Credit": 0,
+            },
             "1": {
                 "Fall": 0,
                 "Spring": 0,

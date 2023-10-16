@@ -5,6 +5,7 @@ export async function add_selections() {
     let columns = new Set()
     let rows = []
     for (const course of await GET("getselections")) {
+        console.log(course)
         const STRING = `td[data-column="${course.column}"][data-year="${course.year}"][data-semester="${course.semester}"].sel`
         document.querySelectorAll(STRING).item(0)?.classList.add('selected')
 

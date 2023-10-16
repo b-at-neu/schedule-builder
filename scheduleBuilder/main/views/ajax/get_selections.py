@@ -10,7 +10,7 @@ def get_selections(filters):
     for item in CourseSelection.objects.filter(**filters):
         selections.append({
             "column": item.course.index,
-            "year": item.year - 1,
+            "year": item.year,
             "semester": item.semester
         })
 

@@ -29,6 +29,7 @@ class CourseSelection(models.Model):
         SPRING = "SP", "Spring"
         SUMMER1 = "S1", "Summer 1"
         SUMMER2 = "S2", "Summer 2"
+        CREDIT = "CR", "Credit"
 
     course = models.ForeignKey("Course", on_delete=models.CASCADE)
     year = models.PositiveSmallIntegerField()

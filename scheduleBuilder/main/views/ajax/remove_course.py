@@ -11,7 +11,7 @@ def remove_course(data):
     # Delete selection
     CourseSelection.objects.filter(
         course = course,
-        year = data.get('year') + 1,
+        year = data.get('year'),
         semester = data.get('semester')
     ).delete()
 

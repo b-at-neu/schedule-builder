@@ -11,7 +11,7 @@ def add_course(data):
     # Create model object
     CourseSelection.objects.create(
         course = course,
-        year = data.get('year') + 1,
+        year = data.get('year'),
         semester = data.get('semester')
     )
 

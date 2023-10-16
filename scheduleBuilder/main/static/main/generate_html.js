@@ -65,8 +65,34 @@ export async function generate() {
     // Add rest of the table
     const info = await GET('getsetupinfo')
 
-    for (let i = 1; i <= info.year_count; i++) {
+    function addSelectableCells(row, year, semester) {
+        // Add selectable cells
+        for (let j = 0; j < info.course_count; j++) {
+            const tdSelectable = document.createElement("td")
+            tdSelectable.classList.add("sel")
+            tdSelectable.title = "Click to select this course"
+            tdSelectable.dataset.column = j
+            tdSelectable.dataset.year = year
+            tdSelectable.dataset.semester = semester
+            row.append(tdSelectable)
+        }
+    }
+
+    for (let i = 0; i <= info.year_count; i++) {
         let row = document.createElement("tr")
+
+        // Credit row
+        if (i == 0) {
+            const tdYear = document.createElement("td")
+            tdYear.colSpan = 2
+            tdYear.innerHTML = "Credit"
+            row.appendChild(tdYear)
+            table.appendChild(row)
+
+            addSelectableCells(row, 0, "Credit")
+            
+            continue
+        }
 
         // Add year
         const tdYear = document.createElement("td")
@@ -86,16 +112,7 @@ export async function generate() {
             const tdSemester = row.appendChild(document.createElement("td"))
             tdSemester.innerHTML = semester
 
-            // Add selectable cells
-            for (let j = 0; j < info.course_count; j++) {
-                const tdSelectable = document.createElement("td")
-                tdSelectable.classList.add("sel")
-                tdSelectable.title = "Click to select this course"
-                tdSelectable.dataset.column = j
-                tdSelectable.dataset.year = i
-                tdSelectable.dataset.semester = semester
-                row.append(tdSelectable)
-            }
+            addSelectableCells(row, i, semester)
         }
     }
 }
