@@ -27,24 +27,24 @@ export function checkForRowErrors(year, semester) {
         })    
 }
 
-export function checkForColumnError(index) {
+export function checkForColumnError(column) {
 
     // Check if adding class made it more than 1 per course
-    const column = document.querySelectorAll(`td[data-column="${index}"].sel`)
-    if (document.querySelectorAll(`td[data-column="${index}"].sel.selected`).length > 1)
-        column.forEach((cell) => {
+    const columnCell = document.querySelectorAll(`td[data-column="${column}"].sel`)
+    if (document.querySelectorAll(`td[data-column="${column}"].sel.selected`).length > 1)
+        columnCell.forEach((cell) => {
             cell.classList.add('column-error')
         })
     else
         // Remove safe cells from error class
-        column.forEach((cell) => {
+        columnCell.forEach((cell) => {
             cell.classList.remove('column-error')
         })
 }
 
-export async function checkForGroupError(index) {
+export async function checkForGroupError(column) {
     // Check if the provided group has more classes than allowed
-    const groups = (await GET(`getgroups`)).filter((e) => index >= e.index && index < e.index + e.count)
+    const groups = (await GET(`getgroups`)).filter((e) => column >= e.column && column < e.column + e.count)
     groups.forEach(async (e) => {
         // Get all selected cells in group
         const selected = (await GET(`getselectionsbygroup?pk=${e.pk}`))[0].selected_total

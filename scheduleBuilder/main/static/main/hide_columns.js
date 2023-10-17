@@ -95,7 +95,7 @@ async function unhideColumn(pk) {
 
     // Grab all the cells that were originally hidden and make them appear again
     document.querySelectorAll(`[data-hidden="${groupData.pk}"]`).forEach((cell) => {
-    delete cell.dataset.hidden
+        delete cell.dataset.hidden
     })
 
     // Remove hidden class from first row
@@ -104,7 +104,7 @@ async function unhideColumn(pk) {
     })
 
     // Reset first row number and color for each semester
-    const firstRowSelections = await GET(`getselections?course__index=${groupData.column}`)
+    const firstRowSelections = await GET(`getselections?course__column=${groupData.column}`)
 
     for (const year in groupData.selected_per_semester)
     for (const semester in groupData.selected_per_semester[year]) {

@@ -21,7 +21,7 @@ urlpatterns = [
     path("addprogram", views.add_program_view),
 
     # AJAX
-    ajax_path('get_selections', 'GET', optional_parameters=['course__index', 'year', 'semester']),
+    ajax_path('get_selections', 'GET', optional_parameters=['course__column', 'year', 'semester']),
     ajax_path('get_selections_by_group', 'GET', optional_parameters=['pk']),
     ajax_path('get_super_group', 'GET', parameters=['pk']),
     ajax_path('get_sub_groups', 'GET', parameters=['pk']),

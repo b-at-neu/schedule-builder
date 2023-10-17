@@ -8,7 +8,6 @@ TODO:
 - Add edit vs view modes
 - Change to use better colors
 - Add course credit numbers?
-- Remove choose text when there's only that many options anyways
 - Add blocking of classes as possibility
 - Standardize column instead of index in front and backend
 - Add option to put in AP credits
@@ -23,3 +22,7 @@ TODO:
 - Fix bug with column errors not working when column is hidden
     - Maybe move error processing to be backend?
 - Decrease amount of backend calls
+- Add more bordering between table headers and tbody
+- Group errors take a while to react
+- Add marking courses in error color when there is a group error
+- Make errors work differently with credit

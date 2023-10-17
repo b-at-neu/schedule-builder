@@ -9,10 +9,10 @@ def get_groups(filter):
     groups = []
 
     # Get data from every group
-    for group in CourseGroup.objects.filter(**filter).order_by("index"):
+    for group in CourseGroup.objects.filter(**filter).order_by("column"):
         groups.append({
             "pk": group.pk,
-            "index": group.index,
+            "column": group.column,
             "row": group.row,
             "count": group.count,
             "required": group.required,

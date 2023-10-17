@@ -23,10 +23,10 @@ export async function generate() {
     for (const group of await GET("getgroups")) {
         
         // Throw error incase
-        if (group.index < titleIndeces[group.row])
-            throw new Error("Group index may not be lower than current index")
+        if (group.column < titleIndeces[group.row])
+            throw new Error("Group column may not be lower than current column")
         // Add blank cells as long as necessary
-        while (group.index > titleIndeces[group.row]) {
+        while (group.column > titleIndeces[group.row]) {
             const td = document.createElement("td")
             td.dataset.column = titleIndeces[group.row]
             td.dataset.row = group.row
@@ -34,7 +34,7 @@ export async function generate() {
             titleIndeces[group.row]++
         }
 
-        // Calculate added index due to rowspan
+        // Calculate added column due to rowspan
         if (group.is_last)
             for (let j = group.row + 1; j < 4; j++)
                 titleIndeces[j] += group.count
@@ -59,7 +59,7 @@ export async function generate() {
     // Add all courses
     for (const course of await GET("getcourses")) {
         const td = document.createElement("td")
-        td.classList.add(`col${course.index}`)
+        td.classList.add(`col${course.column}`)
         td.innerHTML = course.code
         courseRow.append(td)
     }

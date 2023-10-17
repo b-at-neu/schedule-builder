@@ -6,7 +6,7 @@ Add course selection from POST request to models
 """
 def add_course(data):
     # Find course
-    course = Course.objects.filter(index=data.get('column')).first()
+    course = Course.objects.filter(column=data.get('column')).first()
 
     # Create model object
     CourseSelection.objects.create(

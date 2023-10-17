@@ -11,7 +11,7 @@ def get_courses(filter):
     # Get data from every group
     for course in Course.objects.all():
         courses.append({
-            "index": course.index,
+            "column": course.column,
             "code": course.code,
         })
 

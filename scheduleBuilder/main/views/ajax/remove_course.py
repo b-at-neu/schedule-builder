@@ -6,7 +6,7 @@ Removes course selection from models
 """
 def remove_course(data):
     # Find course
-    course = Course.objects.filter(index=data.get('column')).first()
+    course = Course.objects.filter(column=data.get('column')).first()
 
     # Delete selection
     CourseSelection.objects.filter(

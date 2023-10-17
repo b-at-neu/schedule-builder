@@ -2,7 +2,7 @@ from django.db import models
 
 # Create your models here.
 class CourseBase(models.Model):
-    index = models.PositiveSmallIntegerField()
+    column = models.PositiveSmallIntegerField()
     group = models.ForeignKey("CourseBase", on_delete=models.CASCADE, null=True)
 
 # Represents one course

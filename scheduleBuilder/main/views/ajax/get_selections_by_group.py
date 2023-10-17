@@ -74,7 +74,7 @@ def get_selections_by_group(filters):
 
         selections.append({
             "pk": item.pk,
-            "column": item.index,
+            "column": item.column,
             "row": item.row,
             "title": item.title,
             "count": item.count,

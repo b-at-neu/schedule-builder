@@ -16,7 +16,7 @@ def get_super_group(filters):
 
         data = {
             "pk": super_group.pk,
-            "column": super_group.index,
+            "column": super_group.column,
             "row": super_group.row
         }
 
