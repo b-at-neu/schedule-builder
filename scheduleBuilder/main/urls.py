@@ -32,4 +32,5 @@ urlpatterns = [
 
     ajax_path('add_course', 'POST'),
     ajax_path('remove_course', 'POST'),
+    ajax_path('hide_group', 'POST'),
 ]

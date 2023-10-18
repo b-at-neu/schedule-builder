@@ -1,4 +1,4 @@
-import { GET } from './ajax.js'
+import { GET, POST } from './ajax.js'
 
 // Shrink or grow super groups
 async function changeSuperGroups(superGroupData, count, shrink) {
@@ -13,7 +13,7 @@ async function changeSuperGroups(superGroupData, count, shrink) {
 }
 
 // Hides a certain column
-async function hideColumn(pk) {
+export async function hideColumn(pk) {
     // Get data
     const group = document.querySelector(`th[data-pk="${pk}"]`)
     const groupData = (await GET(`getselectionsbygroup?pk=${pk}`))[0]
@@ -75,6 +75,12 @@ async function hideColumn(pk) {
                 
             }
         }
+    
+    // Mark group as hidden in database
+    POST("hidegroup", {
+        "pk": pk,
+        "hide": true,
+    })
 }
 
 // Unhides a certain column
@@ -117,6 +123,12 @@ async function unhideColumn(pk) {
             cell.classList.remove('selected')
         cell.innerHTML = ""
     }
+
+    // Mark group as unhidden in database
+    POST("hidegroup", {
+        "pk": pk,
+        "hide": false,
+    })
 }
 
 

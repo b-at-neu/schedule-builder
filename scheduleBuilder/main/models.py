@@ -18,6 +18,7 @@ class CourseGroup(CourseBase):
     count = models.PositiveSmallIntegerField()
     required = models.PositiveSmallIntegerField()
     row = models.PositiveSmallIntegerField()
+    hidden = models.BooleanField()
 
     def __str__(self) -> str:
         return self.title
@@ -36,4 +37,4 @@ class CourseSelection(models.Model):
     semester = models.CharField(max_length=2, choices=Semester.choices)
 
     def __str__(self) -> str:
-        return self.course.code + " in year " + str(self.year) + " " + self.semester 
+        return self.course.code + " in year " + str(self.year) + " " + self.semester

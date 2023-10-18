@@ -17,7 +17,8 @@ def get_groups(filter):
             "count": group.count,
             "required": group.required,
             "title": group.title,
-            "is_last": not CourseGroup.objects.filter(group=group).count()
+            "is_last": not CourseGroup.objects.filter(group=group).count(),
+            "hidden": group.hidden,
         })
 
     return JsonResponse({'data': groups}, status=200)

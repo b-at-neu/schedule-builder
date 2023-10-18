@@ -5,16 +5,12 @@ export function checkForRowErrors(year, semester) {
     // Check if adding class made it more than 4 per semester
     const row = document.querySelectorAll(`td[data-year="${year}"][data-semester="${semester}"].sel`)
 
-    // Add the total count of selected including hidden
-    let count = 0
     document.querySelectorAll(`td[data-year="${year}"][data-semester="${semester}"].sel.selected`).forEach((cell) => {
-        if (cell.innerHTML)
-            count += parseInt(cell.innerHTML)
-        else
-            count++
+        console.log(cell)
     })
 
-    if (count > 4)
+    // Add the total count of selected including hidden
+    if (document.querySelectorAll(`td[data-year="${year}"][data-semester="${semester}"].sel.selected`).length > 4)
         // Mark entire row red
         row.forEach((cell) => {
             cell.classList.add('row-error')

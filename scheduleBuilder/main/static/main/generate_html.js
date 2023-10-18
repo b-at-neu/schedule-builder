@@ -1,4 +1,5 @@
 import { GET } from './ajax.js'
+import { hideColumn } from './hide_columns.js'
 
 export async function generate() {
     const table = document.getElementById("table")
@@ -20,7 +21,8 @@ export async function generate() {
     titleRows[0].append(emptyTd)
             
     // Add all groups
-    for (const group of await GET("getgroups")) {
+    const allGroups = await GET("getgroups")
+    for (const group of allGroups) {
         
         // Throw error incase
         if (group.column < titleIndeces[group.row])
@@ -119,5 +121,11 @@ export async function generate() {
 
             addSelectableCells(row, i, semester)
         }
+    }
+
+    // Pre-hide columns that should be hidden
+    for (const group of allGroups) {
+        if (group.hidden)
+            hideColumn(group.pk)
     }
 }
